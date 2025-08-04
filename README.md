@@ -45,6 +45,13 @@ npm i --save @nestjs/config
 ```
 
 
+## JWT
+```bash
+
+# 文档 https://docs.nestjs.com/security/authentication
+npm install --save @nestjs/jwt
+```
+
 ## Run tests
 
 ```bash
