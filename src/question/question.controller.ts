@@ -8,6 +8,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Delete,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { QuestionDto } from './dto/question.dto';
@@ -29,16 +30,26 @@ export class QuestionController {
   }
 
   @Get()
-  findAll(
+  async findAll(
     @Query('keyword') keyword: string,
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
   ) {
     console.log(keyword, page, pageSize);
+    const list = await this.questionService.findAllList({
+      keyword,
+      page,
+      pageSize,
+    });
+    const count = await this.questionService.countAll({ keyword });
     return {
-      list: ['a', 'b', 'c'],
-      count: 100,
+      list,
+      count,
     };
+    // return {
+    //   list: ['a', 'b', 'c'],
+    //   count: 100,
+    // };
   }
 
   // get 中的 id 要和 @Param('id')  一致
@@ -57,13 +68,19 @@ export class QuestionController {
     return this.questionService.findOne(id);
   }
 
+  @Delete(':id')
+  deleteOne(@Param('id') id: string) {
+    return this.questionService.delete(id);
+  }
+
   @Patch(':id')
   updateOne(@Param('id') id: string, @Body() questionDto: QuestionDto) {
-    console.log(id, questionDto);
-    return {
-      id,
-      questionDto,
-    };
+    return this.questionService.update(id, questionDto);
+    // console.log(id, questionDto);
+    // return {
+    //   id,
+    //   questionDto,
+    // };
   }
 
   // @Get('/test')
