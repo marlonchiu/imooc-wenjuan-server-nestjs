@@ -33,16 +33,36 @@ export class QuestionService {
     return await this.questionModel.findById(id);
   }
 
-  async delete(id: string) {
-    return await this.questionModel.findByIdAndDelete(id);
+  async delete(id: string, author: string) {
+    // return await this.questionModel.findByIdAndDelete(id);
+    const res = await this.questionModel.findOneAndDelete({ _id: id, author });
+    return res;
   }
 
-  async update(id: string, updateData: Question) {
-    return await this.questionModel.updateOne({ _id: id }, updateData);
+  async deleteMany(ids: string[], author: string): Promise<any> {
+    return await this.questionModel.deleteMany({ _id: { $in: ids }, author });
   }
 
-  async findAllList({ keyword = '', page = 1, pageSize = 10 }) {
-    const whereOpt: any = {};
+  async update(id: string, updateData: Question, author: string) {
+    return await this.questionModel.updateOne({ _id: id, author }, updateData);
+  }
+
+  async findAllList({
+    keyword = '',
+    page = 1,
+    pageSize = 10,
+    isDeleted = false,
+    isStar,
+    author = '',
+  }) {
+    const whereOpt: any = {
+      author,
+      isDeleted,
+    };
+
+    if (isStar != null) {
+      whereOpt.isStar = isStar;
+    }
 
     if (keyword) {
       const reg = new RegExp(keyword, 'i');
@@ -57,8 +77,15 @@ export class QuestionService {
       .exec();
   }
 
-  async countAll({ keyword = '' }) {
-    const whereOpt: any = {};
+  async countAll({ keyword = '', isDeleted = false, isStar, author = '' }) {
+    const whereOpt: any = {
+      author,
+      isDeleted,
+    };
+
+    if (isStar != null) {
+      whereOpt.isStar = isStar;
+    }
 
     if (keyword) {
       const reg = new RegExp(keyword, 'i');
