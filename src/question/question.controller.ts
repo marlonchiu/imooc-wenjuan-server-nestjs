@@ -7,11 +7,21 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  Post,
 } from '@nestjs/common';
+import { QuestionService } from './question.service';
 import { QuestionDto } from './dto/question.dto';
 
 @Controller('question')
 export class QuestionController {
+  // 依赖注入
+  constructor(private readonly questionService: QuestionService) {}
+
+  @Post('/create')
+  async create() {
+    return await this.questionService.create();
+  }
+
   // 测试错误
   @Get('/error')
   getTest(): string {
@@ -32,14 +42,19 @@ export class QuestionController {
   }
 
   // get 中的 id 要和 @Param('id')  一致
+  // @Get(':id')
+  // findOne(@Param('id') uid: string) {
+  //   console.log(uid);
+  //   return {
+  //     id: '1',
+  //     title: 'title',
+  //     desc: 'content',
+  //   };
+  // }
   @Get(':id')
-  findOne(@Param('id') uid: string) {
-    console.log(uid);
-    return {
-      id: '1',
-      title: 'title',
-      desc: 'content',
-    };
+  findOne(@Param('id') id: string) {
+    console.log(id);
+    return this.questionService.findOne(id);
   }
 
   @Patch(':id')
