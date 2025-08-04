@@ -5,10 +5,11 @@ import {
   Param,
   Patch,
   Query,
-  HttpException,
-  HttpStatus,
+  // HttpException,
+  // HttpStatus,
   Post,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { QuestionDto } from './dto/question.dto';
@@ -18,16 +19,17 @@ export class QuestionController {
   // 依赖注入
   constructor(private readonly questionService: QuestionService) {}
 
-  @Post('/create')
-  async create() {
-    return await this.questionService.create();
+  @Post('create')
+  async create(@Request() req) {
+    const { username } = req.user;
+    return await this.questionService.create(username);
   }
 
   // 测试错误
-  @Get('/error')
-  getTest(): string {
-    throw new HttpException('获取数据失败', HttpStatus.BAD_REQUEST);
-  }
+  // @Get('error')
+  // getTest(): string {
+  //   throw new HttpException('获取数据失败', HttpStatus.BAD_REQUEST);
+  // }
 
   @Get()
   async findAll(
