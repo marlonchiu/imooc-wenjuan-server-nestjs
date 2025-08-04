@@ -1,6 +1,7 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Redirect重定向](https://docs.nestjs.com/controllers#redirection)
 
 ## Project setup
 
