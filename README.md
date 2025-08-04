@@ -37,6 +37,13 @@ $ nest g interceptor transform --no-spec
 $ nest g filter http-exception --no-spec
 ```
 
+## 安装数据库
+```bash
+npm i @nestjs/mongoose mongoose --save
+npm i --save @nestjs/config
+# npm i @types/mongoose --save-dev
+```
+
 
 ## Run tests
 
