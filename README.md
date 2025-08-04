@@ -30,6 +30,11 @@ $ nest g service <module-name> --no-spec
 # nest g module question
 # nest g controller question --no-spec # 不需要测试文件
 # nest g service question --no-spec
+
+# 生成拦截器
+$ nest g interceptor transform --no-spec
+# 生成过滤器
+$ nest g filter http-exception --no-spec
 ```
 
 
