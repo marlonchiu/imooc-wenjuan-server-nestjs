@@ -12,8 +12,8 @@ export class Answer {
 
   @Prop()
   answerList: {
-    componentFeId: string; // 对应组件的fe_id
-    value: string[]; // 答案值
+    componentId: string; // 对应组件的fe_id
+    value: string; // 答案值
   }[]; // 答案列表
 }
 

@@ -79,3 +79,9 @@ $ mau deploy
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## 参考代码
+
+[https://github.com/xing-6464/question-server-nestjs](https://github.com/xing-6464/question-server-nestjs)
+[https://github.com/577promax/questionnaire-system](https://github.com/577promax/questionnaire-system)

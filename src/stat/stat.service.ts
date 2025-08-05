@@ -9,8 +9,8 @@ type Component = {
 };
 
 type AnswerItem = {
-  componentFeId: string;
-  value: string[];
+  componentId: string;
+  value: string;
 };
 
 @Injectable()
@@ -60,7 +60,7 @@ export class StatService {
     const { componentList = [] } = question;
 
     answerList.forEach((a) => {
-      const { componentFeId, value = [] } = a;
+      const { componentId: componentFeId, value } = a;
 
       // 获取组件信息
       const comp = componentList.find((c) => c.fe_id === componentFeId);
@@ -70,11 +70,13 @@ export class StatService {
       if (type === 'questionRadio') {
         // 单选
         res[componentFeId] = value
+          .split(',')
           .map((v) => this._getRadioOptText(v, props))
           .toString();
       } else if (type === 'questionCheckbox') {
         // 多选
         res[componentFeId] = value
+          .split(',')
           .map((v) => this._getCheckboxOptText(v, props))
           .toString();
       } else {
@@ -145,8 +147,8 @@ export class StatService {
     answers.forEach((a) => {
       const { answerList = [] } = a;
       answerList.forEach((a) => {
-        if (a.componentFeId !== componentFeId) return;
-        a.value.forEach((v) => {
+        if (a.componentId !== componentFeId) return;
+        a.value.split(',').forEach((v) => {
           if (countInfo[v] == null) countInfo[v] = 0;
           countInfo[v]++; // 累加
         });

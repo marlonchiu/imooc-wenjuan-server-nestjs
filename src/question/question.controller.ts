@@ -10,6 +10,7 @@ import {
   Post,
   Delete,
   Request,
+  Redirect,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { QuestionDto } from './dto/question.dto';
@@ -121,5 +122,12 @@ export class QuestionController {
   duplicate(@Param('id') id: string, @Request() req) {
     const { username } = req.user;
     return this.questionService.duplicate(id, username);
+  }
+
+  // 创建问卷 业务端接口是 POST /api/question
+  @Post()
+  @Redirect('/api/question/create', 307) // http状态码 POST请求 - 308永久 307临时
+  async newQuestion() {
+    return;
   }
 }
