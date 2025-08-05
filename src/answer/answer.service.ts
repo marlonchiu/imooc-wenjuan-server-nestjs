@@ -17,4 +17,22 @@ export class AnswerService {
     const answer = new this.answerModel(answerInfo);
     return await answer.save();
   }
+
+  async count(questionId: string) {
+    if (questionId == null) return 0;
+    return await this.answerModel.countDocuments({ questionId });
+  }
+
+  async findAll(questionId: string, opt: { page: number; pageSize: number }) {
+    if (!questionId) return [];
+
+    const { page, pageSize } = opt;
+    const list = await this.answerModel
+      .find({ questionId })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .sort({ createdAt: -1 });
+
+    return list;
+  }
 }
